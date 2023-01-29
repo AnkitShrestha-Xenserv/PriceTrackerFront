@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import '../bloc/products_provider.dart';
+import '../models/user_model.dart';
+import '../models/item_model.dart';
 
 class ViewProduct extends StatelessWidget {
   ViewProduct({Key? key}) : super(key: key);
 
-  final items = [
-    'Acer helios',
-    'MSI GF63',
-    'Lenovo Legion',
-    'Dell G15',
-    'Ripple',
-    'Hp Omen 15'
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final _bloc = ProductsProvider.of(context);
+    print(_bloc.fetchProducts());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -27,14 +24,22 @@ class ViewProduct extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CustomListTile(context, items[index]);
-            }),
-      ),
+      body: StreamBuilder(
+          stream: _bloc.products,
+          builder: (context, AsyncSnapshot<List<ItemModel>> snapshot) {
+            if (!snapshot.hasData) {
+              return Text('Still Loading Data');
+            } else if (snapshot.hasError) {
+              return Text("Error loading");
+            } else if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomListTile(context, snapshot.data![index]);
+                  });
+            }
+            return Text('Loading Data');
+          }),
     );
   }
 
@@ -66,7 +71,7 @@ class ViewProduct extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${item}',
+                          '${item.productName}',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
@@ -85,11 +90,11 @@ class ViewProduct extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CustomInfo('Track Date', '2023/01/05'),
-                        CustomInfo('Previous Price', '130,000'),
-                        CustomInfo('Updated Date', '2023/01/10'),
-                        CustomInfo('Current Price', '125,000'),
-                        CustomInfo('Threshold', '120,000'),
+                        CustomInfo('Track Date', '${item.previousDate}'),
+                        CustomInfo('Previous Price', '${item.previousPrice}'),
+                        CustomInfo('Updated Date', '${item.currentDate}'),
+                        CustomInfo('Current Price', '${item.currentPrice}'),
+                        CustomInfo('Threshold', '${item.thresholdPrice}'),
                       ],
                     ),
                   ),

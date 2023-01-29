@@ -4,7 +4,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.text,
-    required this.route,
+    this.route,
   }) : super(key: key);
 
   final text;
@@ -20,7 +20,9 @@ class CustomButton extends StatelessWidget {
           minimumSize: const Size.fromHeight(50), // NEW
         ),
         onPressed: () {
-          Navigator.pushNamed(context, route);
+          if (route != null) {
+            Navigator.pushNamed(context, route);
+          }
         },
         child: Text(
           text,

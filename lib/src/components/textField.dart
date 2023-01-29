@@ -6,11 +6,13 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.validate,
     this.obscureText: false,
+    this.focusedBorderColor = Colors.blue,
   }) : super(key: key);
 
   final hintText;
   final obscureText;
   final validate;
+  final focusedBorderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomTextField extends StatelessWidget {
                   borderSide: const BorderSide(color: Colors.black, width: 1.0),
                   borderRadius: BorderRadius.circular(5.0)),
               focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+                  borderSide: BorderSide(color: focusedBorderColor, width: 2.0),
                   borderRadius: BorderRadius.circular(5.0)),
             ),
           ),

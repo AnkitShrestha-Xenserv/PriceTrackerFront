@@ -126,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         menuCard(context, size, 'Add Product',
                             Icon(Icons.add, size: 50),
-                            route: '/'),
+                            route: '/add_products'),
                         menuCard(context, size, 'View Product',
                             Icon(Icons.shopping_cart, size: 40),
                             route: '/view_products'),
