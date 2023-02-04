@@ -22,7 +22,7 @@ class App extends StatelessWidget {
           onGenerateRoute: routes,
           title: 'Keen Price Tracker',
           theme: ThemeData(primarySwatch: Colors.blue),
-          home: Scaffold(body: LoginScreen()),
+          home: Scaffold(body: HomeScreen()),
         ),
       ),
     );
@@ -37,7 +37,7 @@ class App extends StatelessWidget {
           return MaterialPageRoute(builder: (context) {
             final _bloc = ProductsProvider.of(context);
             _bloc.fetchProducts();
-            return LoginScreen();
+            return HomeScreen();
           });
         }
       case '/login':
@@ -77,7 +77,7 @@ class App extends StatelessWidget {
         }
     }
     return MaterialPageRoute(builder: (context) {
-      return LoginScreen();
+      return HomeScreen();
     });
   }
 }
